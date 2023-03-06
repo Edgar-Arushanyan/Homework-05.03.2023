@@ -7,13 +7,12 @@ import java.io.IOException;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) {
 
-
-        System.out.println(reader("input.txt"));
-
+        File fileName = new File("input.txt");
+        System.out.println(readerIntoString(fileName));
         //___________________________________________________________
-        System.out.println(number("number.txt"));
+        System.out.println(countAverage("number.txt"));
 
     }
     //Задача 1
@@ -25,20 +24,22 @@ public class Main {
     //cc
     //Метод вернет aaa bbbb cc
 
-    public static String reader (String fileIn)  throws IOException{
-        BufferedReader br = new BufferedReader(new FileReader(fileIn));
+    public static String readerIntoString (File fileName)  {
+        String s = "";
 
-        String line = "";
-        line = br.readLine();
-        String  line1= br.readLine();
-        String  line2= br.readLine();
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))){
+            String line;
 
-        return line +" "+ line1 +" "+ line2;
+            while ((line = br.readLine())!=null){
+                s = s+" "+line;
+            }
 
-
-
-
+        }catch (IOException e){
+            e.getMessage();
+        }
+            return s;  // output -aaa bbbb cc
     }
+    //---------------------------------------------//..........................................................
     //Задача 2
     //Есть не пустой текстовый файл такого вида:
     //1
@@ -48,20 +49,24 @@ public class Main {
     //5
     //Написать метод, возвращаюший среднее арифметическое всех этих чисел.
 
-    public static int number (String fileIn) throws IOException{
+    public static double countAverage (String fileName) {
+        int sum =   0;
+        int count = 0;
+        String nextInt;
 
-        BufferedReader br1= new BufferedReader(new FileReader(fileIn));
+        try ( BufferedReader br1= new BufferedReader(new FileReader(fileName))) {
+            while ((nextInt = br1.readLine()) != null) {
+                sum = sum + Integer.parseInt(nextInt);
+                count++;
+            }
+        }catch (IOException e){
+            e.getMessage();
+        }
+        return sum/count;
 
-
-        int a =Integer.parseInt(br1.readLine());
-        int b =Integer.parseInt(br1.readLine());
-        int c= Integer.parseInt(br1.readLine());
-        int d =Integer.parseInt(br1.readLine());
-        int e= Integer.parseInt(br1.readLine());
-        int sum = a+b+c+d+e;
-
-        return sum/5;
     }
+
+
 
 }
 
